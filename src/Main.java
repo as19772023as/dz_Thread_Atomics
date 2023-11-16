@@ -23,7 +23,7 @@ public class Main {
                 if (IntStream.range(0, text.length() / 2)
                         .noneMatch(i -> text.charAt(i) != text.charAt(text.length() - i - 1))) {
                     ATOMIC_3.getAndIncrement();
-                    // continue;
+                    continue;
                 }
                 if (isAlphabeticOrder(text)) {
                     ATOMIC_3.getAndIncrement();
@@ -36,7 +36,7 @@ public class Main {
                 if (IntStream.range(0, text.length() / 2)
                         .noneMatch(i -> text.charAt(i) != text.charAt(text.length() - i - 1))) {
                     ATOMIC_4.getAndIncrement();
-                    // continue;
+                    continue;
                 }
                 if (isAlphabeticOrder(text)) {
                     ATOMIC_4.getAndIncrement();
@@ -49,7 +49,7 @@ public class Main {
                 if (IntStream.range(0, text.length() / 2)
                         .noneMatch(i -> text.charAt(i) != text.charAt(text.length() - i - 1))) {
                     ATOMIC_5.getAndIncrement();
-                    //  continue;
+                    continue;
                 }
                 if (isAlphabeticOrder(text)) {
                     ATOMIC_5.getAndIncrement();
