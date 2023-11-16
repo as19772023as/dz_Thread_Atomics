@@ -19,46 +19,30 @@ public class Main {
         }
 
         Thread thread1 = new Thread(() -> {
-            for (String text : sorttingByLenght(texts, 3)) {
-                if (IntStream.range(0, text.length() / 2)
-                        .noneMatch(i -> text.charAt(i) != text.charAt(text.length() - i - 1))) {
-                    ATOMIC_3.getAndIncrement();
-                    continue;
-                }
-                if (isAlphabeticOrder(text)) {
-                    ATOMIC_3.getAndIncrement();
+            for (String text : texts) {
+                if (isPalindrome(text)) {
+                    incrementCounter(text.length());
                 }
             }
         });
+        thread1.start();
 
         Thread thread2 = new Thread(() -> {
-            for (String text : sorttingByLenght(texts, 4)) {
-                if (IntStream.range(0, text.length() / 2)
-                        .noneMatch(i -> text.charAt(i) != text.charAt(text.length() - i - 1))) {
-                    ATOMIC_4.getAndIncrement();
-                    continue;
-                }
-                if (isAlphabeticOrder(text)) {
-                    ATOMIC_4.getAndIncrement();
+            for (String text : texts) {
+                if (isSameLetter(text)) {
+                    incrementCounter(text.length());
                 }
             }
         });
+        thread2.start();
 
         Thread thread3 = new Thread(() -> {
-            for (String text : sorttingByLenght(texts, 5)) {
-                if (IntStream.range(0, text.length() / 2)
-                        .noneMatch(i -> text.charAt(i) != text.charAt(text.length() - i - 1))) {
-                    ATOMIC_5.getAndIncrement();
-                    continue;
-                }
+            for (String text : texts) {
                 if (isAlphabeticOrder(text)) {
-                    ATOMIC_5.getAndIncrement();
+                    incrementCounter(text.length());
                 }
             }
         });
-
-        thread1.start();
-        thread2.start();
         thread3.start();
 
         thread1.join();
@@ -81,12 +65,20 @@ public class Main {
         return text.toString();
     }
 
-    public static List<String> sorttingByLenght(String[] texts, int namderLenght) {
-        List<String> list = Arrays.stream(texts)
-                .filter(str -> str.length() == namderLenght)
-                .distinct()
-                .collect(Collectors.toList());
-        return list;
+    public static boolean isPalindrome(String text) {
+        if (IntStream.range(0, text.length() / 2)
+                .noneMatch(i -> text.charAt(i) != text.charAt(text.length() - i - 1))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isSameLetter(String text) {
+        for (int i = 1; i < text.length(); i++) {
+            if (text.charAt(i) != text.charAt(i - 1))
+                return false;
+        }
+        return true;
     }
 
     public static boolean isAlphabeticOrder(String s) {
@@ -100,5 +92,13 @@ public class Main {
             if (c[i] != s.charAt(i))
                 return false;
         return true;
+    }
+
+    public static void incrementCounter(int text) {
+        switch (text) {
+            case 3 -> ATOMIC_3.incrementAndGet();
+            case 4 -> ATOMIC_4.incrementAndGet();
+            case 5 -> ATOMIC_5.incrementAndGet();
+        }
     }
 }
